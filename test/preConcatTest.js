@@ -1,48 +1,52 @@
 'use strict';
 
 var grunt = require('grunt');
+var DependencyGraph = require('../tasks/lib/dependencygraph.js');
 
-/*
-  ======== A Handy Little Nodeunit Reference ========
-  https://github.com/caolan/nodeunit
+exports.preConcat = {
+    cyclicGraph: function (test) {
+        test.expect(1);
 
-  Test methods:
-    test.expect(numAssertions)
-    test.done()
-  Test assertions:
-    test.ok(value, [message])
-    test.equal(actual, expected, [message])
-    test.notEqual(actual, expected, [message])
-    test.deepEqual(actual, expected, [message])
-    test.notDeepEqual(actual, expected, [message])
-    test.strictEqual(actual, expected, [message])
-    test.notStrictEqual(actual, expected, [message])
-    test.throws(block, [error], [message])
-    test.doesNotThrow(block, [error], [message])
-    test.ifError(value)
-*/
+        var root = 'test/fixtures/cyclic';
+        var files = ['a', 'b', 'c'].map(function (name) {
+            return root + '/' + name + '.js';
+        });
+        var graph = new DependencyGraph(root.split('/'), files);
 
-exports.pre_concat = {
-  setUp: function(done) {
-    // setup here if necessary
-    done();
-  },
-  default_options: function(test) {
-    test.expect(1);
+        test.throws(function () {
+            graph.sort();
+        }, Error, 'Cyclic dependencies detected.');
 
-    var actual = grunt.file.read('tmp/default_options');
-    var expected = grunt.file.read('test/expected/default_options');
-    test.equal(actual, expected, 'should describe what the default behavior is.');
+        test.done();
+    },
+    emptySet: function (test) {
+        test.expect(1);
 
-    test.done();
-  },
-  custom_options: function(test) {
-    test.expect(1);
+        var graph = new DependencyGraph(['src'], []);
+        test.deepEqual(graph.sort(), []);
 
-    var actual = grunt.file.read('tmp/custom_options');
-    var expected = grunt.file.read('test/expected/custom_options');
-    test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+        test.done();
+    },
+    wrongId: function (test) {
+        test.expect(1);
 
-    test.done();
-  },
+        test.throws(function () {
+            new DependencyGraph(
+                'test/fixtures/typo'.split('/'), [
+                    'test/fixtures/typo/a.js',
+                    'test/fixtures/typo/b.js'
+                ]);
+        }, Error, 'Invalid (not existing) dependencies.');
+
+        test.done();
+    },
+    concat: function (test) {
+        test.expect(1);
+
+        var actual = grunt.file.read('tmp/correct.js');
+        var expected = grunt.file.read('test/expected/correct.js');
+        test.equal(actual, expected);
+
+        test.done();
+    }
 };

@@ -118,6 +118,12 @@ DependencyGraph.prototype = {
     },
     sort: function () {
         var sorted = [];
+
+        // check is graph is actually empty
+        if(_.isEmpty(this.graph)) {
+            return sorted;
+        }
+
         var nodes = _.groupBy(_.clone(this.graph, true), function (node) {
             return node.dependencies.length ? 'noempty' : 'empty'
         });
