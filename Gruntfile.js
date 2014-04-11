@@ -32,7 +32,7 @@ module.exports = function (grunt) {
         preConcat: {
             correct: {
                 options: {
-                    rootDir: 'test/fixtures/correct'
+                    cwd: 'test/fixtures/correct'
                 },
                 src: 'test/fixtures/correct/**/*.js',
                 dest: 'tmp/correct.js'

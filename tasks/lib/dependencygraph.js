@@ -50,11 +50,12 @@ var verifyGraph = function verifyGraph(graph) {
 // Constructor
 //-----------------------------------------------
 
-var DependencyGraph = module.exports = function DependencyGraph(root, src) {
+var DependencyGraph = module.exports = function DependencyGraph(cwd, src) {
+    var cwdParts = cwd.split('/');
     // build graph
     this.graph = _.reduce(fs.expand({nonull: true}, src), function (graph, filePath) {
         var fileId = stripExt(filePath).split('/').filter(function (part) {
-            return !_.contains(root, part) || _.isEmpty(part);
+            return !_.contains(cwdParts, part) || _.isEmpty(part);
         }).join('.');
         var content = fs.read(filePath);
         var dependencies = collectDependencies(content);

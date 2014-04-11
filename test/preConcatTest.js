@@ -7,11 +7,11 @@ exports.preConcat = {
     cyclicGraph: function (test) {
         test.expect(1);
 
-        var root = 'test/fixtures/cyclic';
+        var cwd = 'test/fixtures/cyclic';
         var files = ['a', 'b', 'c'].map(function (name) {
-            return root + '/' + name + '.js';
+            return cwd + '/' + name + '.js';
         });
-        var graph = new DependencyGraph(root.split('/'), files);
+        var graph = new DependencyGraph(cwd, files);
 
         test.throws(function () {
             graph.sort();
@@ -22,7 +22,7 @@ exports.preConcat = {
     emptySet: function (test) {
         test.expect(1);
 
-        var graph = new DependencyGraph(['src'], []);
+        var graph = new DependencyGraph('src', []);
         test.deepEqual(graph.sort(), []);
 
         test.done();
@@ -32,7 +32,7 @@ exports.preConcat = {
 
         test.throws(function () {
             new DependencyGraph(
-                'test/fixtures/typo'.split('/'), [
+                'test/fixtures/typo', [
                     'test/fixtures/typo/a.js',
                     'test/fixtures/typo/b.js'
                 ]);

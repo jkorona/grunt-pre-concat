@@ -12,17 +12,17 @@ module.exports = function (grunt) {
     var DependencyGraph = require('./lib/dependencygraph.js');
 
     var DEFAULT_OPTIONS = {
-        rootDir: 'src'
+        cwd: 'src'
     };
 
     grunt.registerMultiTask('preConcat', 'Builds list of files to concat in order based on the dependencies tree', function () {
         var options = this.options(DEFAULT_OPTIONS),
-            rootDir = options.rootDir.split('/'),
+            cwd = options.cwd,
             target = this.target,
             concatConfig = grunt.config('concat') || {};
 
         this.files.forEach(function (subject) {
-            var dependencyGraph = new DependencyGraph(rootDir, subject.src);
+            var dependencyGraph = new DependencyGraph(cwd, subject.src);
             var sortedNodes = dependencyGraph.sort();
             concatConfig[target] = {
                 src: _.pluck(sortedNodes, 'filePath'),
