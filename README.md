@@ -3,7 +3,7 @@
 > Grunt.js task that prepares javascript files for concatenation by setting them in correct order using dependency tree.
 
 ## Getting Started
-This plugin requires Grunt `~0.4.4`
+This plugin requires Grunt `>0.4.4`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -158,3 +158,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 
 2014-04-12 Initial version 1.0.0 released.
+2016-02-29 Patch 1.0.1 with added support for GruntJS 1.0
