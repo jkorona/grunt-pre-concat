@@ -158,4 +158,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 ## Release History
 
 2014-04-12 Initial version 1.0.0 released.
-2016-02-29 Patch 1.0.1 with added support for GruntJS 1.0
+2016-02-29 Patch 1.1.0 with added support for GruntJS 1.0
